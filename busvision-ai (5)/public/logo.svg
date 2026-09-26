@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 500" fill="none">
+  <!-- BusCrowd AI Official Bus Logo -->
+  <g fill="#004D73">
+    <!-- Top roof swoop and rear aerodynamic tail -->
+    <path d="M 140 220 C 180 195 240 150 280 130 C 320 110 390 125 435 155 C 455 170 460 185 455 210 C 452 225 440 235 435 245 C 430 252 432 285 432 290 L 452 290 C 453 275 455 245 455 230 C 455 200 450 170 425 145 C 385 110 310 100 270 120 C 230 140 170 185 140 220 Z" />
+
+    <!-- Right side mirror & frame accent -->
+    <path d="M 432 245 C 430 250 430 285 430 290 C 430 292 455 292 455 290 C 455 260 455 235 448 230 C 442 225 435 235 432 245 Z" />
+
+    <!-- Left side mirror inside windshield -->
+    <path d="M 285 185 C 290 195 320 215 322 235 L 322 278 L 294 278 L 294 230 C 294 210 280 195 285 185 Z" />
+
+    <!-- Upper roof / front windshield inner pillar arch -->
+    <path d="M 276 142 C 285 148 300 160 300 175 L 305 380 L 294 380 L 285 180 C 282 170 275 160 270 152 L 276 142 Z" />
+
+    <!-- Left aerodynamic dynamic swoosh 1 -->
+    <path d="M 195 228 C 225 210 255 185 272 165 L 260 175 C 230 215 190 250 205 300 C 215 330 240 355 270 370 C 255 355 235 330 230 300 C 222 260 205 238 195 228 Z" />
+
+    <!-- Left aerodynamic lower bottom swoosh 2 -->
+    <path d="M 165 320 C 190 320 225 305 250 285 C 230 305 195 322 165 320 Z" />
+    <path d="M 165 318 C 195 318 240 295 270 370 C 255 350 220 320 165 318 Z" />
+
+    <!-- Lower front fascia, grill & bumper lines -->
+    <path d="M 283 365 C 330 375 400 375 448 350 C 452 355 452 390 450 435 C 445 448 435 450 420 450 C 370 455 320 440 280 430 C 282 425 285 410 288 395 C 330 405 400 405 440 385 L 438 370 C 390 385 330 385 285 375 L 283 365 Z" />
+
+    <!-- Lower chin spoiler baseline -->
+    <path d="M 280 435 C 320 448 380 452 445 425 C 442 435 435 445 420 448 C 360 455 310 445 280 435 Z" />
+
+    <!-- Center bumper lower dynamic curve -->
+    <path d="M 335 390 L 420 390 C 420 405 400 415 375 415 C 350 415 335 405 335 390 Z" />
+  </g>
+</svg>

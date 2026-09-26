@@ -1,0 +1,6 @@
+{
+  "name": "BusCrowd AI",
+  "description": "B2C-приложение для пассажиров маршрутов Актау с мониторингом загруженности автобусов в реальном времени",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
