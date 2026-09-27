@@ -36,12 +36,10 @@ export const BusHeroSelector: React.FC<BusHeroSelectorProps> = ({
   const [isOpen, setIsOpen] = useState(false);
   const [alertMessage, setAlertMessage] = useState<string | null>(null);
   
-  // Passenger entering animation states
   const [isEntering, setIsEntering] = useState(false);
   const [enterSequence, setEnterSequence] = useState(0);
   const prevOccupancyRef = useRef(occupancy);
 
-  // Turn off entering state after animation completes
   useEffect(() => {
     if (isEntering) {
       const timer = setTimeout(() => {
@@ -51,7 +49,6 @@ export const BusHeroSelector: React.FC<BusHeroSelectorProps> = ({
     }
   }, [isEntering, enterSequence]);
 
-  // Trigger animation when occupancy prop increases from outside (telemetry / live data)
   useEffect(() => {
     if (occupancy > prevOccupancyRef.current) {
       setIsEntering(true);
@@ -60,7 +57,6 @@ export const BusHeroSelector: React.FC<BusHeroSelectorProps> = ({
     prevOccupancyRef.current = occupancy;
   }, [occupancy]);
 
-  // Gentle initial showcase on first load so user immediately sees the visual
   useEffect(() => {
     const timer = setTimeout(() => {
       setIsEntering(true);
