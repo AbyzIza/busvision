@@ -87,12 +87,10 @@ export function useUserGeolocation() {
     };
   }, [refreshLocation, updatePosition, handleError]);
 
-  // Check if user is located inside or near Aktau (lat: ~43.5 - 43.8, lng: ~51.0 - 51.4)
   const isNearAktau = userCoords 
     ? userCoords.lat >= 43.45 && userCoords.lat <= 43.85 && userCoords.lng >= 50.95 && userCoords.lng <= 51.45
     : false;
 
-  // Find nearest stop to user if in Aktau
   const nearestUserStop = userCoords && isNearAktau
     ? AKTAU_ROUTE_42_STOPS.reduce<{ stop: BusStop; distance: number }>(
         (acc, stop) => {
