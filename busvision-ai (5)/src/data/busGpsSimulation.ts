@@ -12,7 +12,6 @@ export interface BusTelemetry {
   timestamp: number;
 }
 
-// Calculate bearing between two coordinates
 function calculateBearing(lat1: number, lon1: number, lat2: number, lon2: number): number {
   const toRad = (deg: number) => (deg * Math.PI) / 180;
   const toDeg = (rad: number) => (rad * 180) / Math.PI;
@@ -28,7 +27,6 @@ function calculateBearing(lat1: number, lon1: number, lat2: number, lon2: number
   return (toDeg(θ) + 360) % 360;
 }
 
-// Linear interpolation between two coordinates
 function interpolate(p1: { lat: number; lng: number }, p2: { lat: number; lng: number }, factor: number) {
   return {
     lat: p1.lat + (p2.lat - p1.lat) * factor,
@@ -37,7 +35,7 @@ function interpolate(p1: { lat: number; lng: number }, p2: { lat: number; lng: n
 }
 
 export class BusGpsSimulator {
-  private stopIndex: number = 3; // Starts around ТРК Актау (16 мкр)
+  private stopIndex: number = 3; 
   private progress: number = 0.25;
   private direction: 'forward' | 'backward' = 'forward';
   private currentSpeed: number = 34; // km/h
