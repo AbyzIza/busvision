@@ -19,7 +19,6 @@ export interface BusRoute {
   stops: BusStop[];
 }
 
-// Actual bus stops in Aktau along Route 42 with verified coordinates
 export const AKTAU_ROUTE_42_STOPS: BusStop[] = [
   {
     id: 'avtovokzal',
@@ -126,7 +125,6 @@ export const AKTAU_ROUTES: BusRoute[] = [
   },
 ];
 
-// Calculate Haversine distance in meters between two coordinates
 export function getDistanceMeters(lat1: number, lon1: number, lat2: number, lon2: number): number {
   const R = 6371e3; // Earth radius in meters
   const phi1 = (lat1 * Math.PI) / 180;
@@ -142,7 +140,6 @@ export function getDistanceMeters(lat1: number, lon1: number, lat2: number, lon2
   return Math.round(R * c);
 }
 
-// Format distance human-friendly
 export function formatDistance(meters: number): string {
   if (meters < 1000) {
     return `${meters} м`;
@@ -150,7 +147,6 @@ export function formatDistance(meters: number): string {
   return `${(meters / 1000).toFixed(1)} км`;
 }
 
-// Find nearest bus stop to coordinates
 export function getNearestBusStop(
   lat: number,
   lng: number,
