@@ -20,7 +20,6 @@ export const firebaseConfig = {
   measurementId: "G-DF32WV8773"
 };
 
-// Initialize Firebase App
 export const app = !getApps().length ? initializeApp(firebaseConfig) : getApp();
 export const db = getDatabase(app);
 export const rtdb = db;
