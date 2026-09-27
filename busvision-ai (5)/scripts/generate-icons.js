@@ -4,8 +4,7 @@ import sharp from 'sharp';
 
 async function generateIcons() {
   const publicDir = path.resolve('public');
-  
-  // Standard SVG with blue bus on transparent
+
   const blueSvg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 500" width="400" height="333">
     <g fill="#084C6F">
       <path d="M 140 220 C 180 195 240 150 280 130 C 320 110 390 125 435 155 C 455 170 460 185 455 210 C 452 225 440 235 435 245 C 430 252 432 285 432 290 L 452 290 C 453 275 455 245 455 230 C 455 200 450 170 425 145 C 385 110 310 100 270 120 C 230 140 170 185 140 220 Z" />
@@ -21,7 +20,7 @@ async function generateIcons() {
     </g>
   </svg>`;
 
-  // Maskable SVG with solid brand background and white bus icon centered in safe zone (80% diameter)
+
   const maskableSvg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
     <rect width="512" height="512" fill="#084C6F" />
     <g transform="translate(106, 126) scale(0.5)" fill="#FFFFFF">
@@ -38,7 +37,6 @@ async function generateIcons() {
     </g>
   </svg>`;
 
-  // 1. Generate 192x192 PNG (White background with blue icon)
   await sharp(Buffer.from(blueSvg))
     .resize(150, 125, { fit: 'contain' })
     .extend({
@@ -51,7 +49,6 @@ async function generateIcons() {
     .png()
     .toFile(path.join(publicDir, 'pwa-192x192.png'));
 
-  // 2. Generate 512x512 PNG (White background with blue icon)
   await sharp(Buffer.from(blueSvg))
     .resize(400, 333, { fit: 'contain' })
     .extend({
@@ -64,12 +61,10 @@ async function generateIcons() {
     .png()
     .toFile(path.join(publicDir, 'pwa-512x512.png'));
 
-  // 3. Generate 512x512 maskable PNG (Deep brand blue background with safe zone margins)
   await sharp(Buffer.from(maskableSvg))
     .png()
     .toFile(path.join(publicDir, 'pwa-maskable-512x512.png'));
 
-  // 4. Generate 180x180 apple-touch-icon PNG
   await sharp(Buffer.from(maskableSvg))
     .resize(180, 180)
     .png()
