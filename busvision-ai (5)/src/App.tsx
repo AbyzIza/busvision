@@ -48,7 +48,6 @@ import {
 import { useUserGeolocation } from './hooks/useUserGeolocation';
 import { BusGpsSimulator, BusTelemetry } from './data/busGpsSimulation';
 
-// Styled Leaflet marker with official BusVision logo
 const softBusIcon = L.divIcon({
   className: 'soft-bus-marker',
   html: `
@@ -89,7 +88,6 @@ const userGpsIcon = L.divIcon({
   iconAnchor: [17, 17],
 });
 
-// Styled Leaflet marker for bus stops
 const stopIcon = L.divIcon({
   className: 'bus-stop-marker',
   html: `
@@ -99,7 +97,6 @@ const stopIcon = L.divIcon({
   iconAnchor: [7, 7],
 });
 
-// Helper component to center map smoothly
 function MapController({ 
   centerCoords, 
   zoom 
@@ -128,8 +125,7 @@ export default function App() {
   const [waitingCount, setWaitingCount] = useState<number>(0);
   const [hasVotedWaiting, setHasVotedWaiting] = useState<boolean>(false);
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
-  
-  // Real Device Geolocation Hook
+
   const { 
     userCoords, 
     gpsStatus, 
@@ -138,19 +134,15 @@ export default function App() {
     nearestUserStop 
   } = useUserGeolocation();
 
-  // Bus Real-time GPS Telemetry & Movement along Route 42
   const busSimulatorRef = useRef<BusGpsSimulator>(new BusGpsSimulator());
   const [busTelemetry, setBusTelemetry] = useState<BusTelemetry>(() => busSimulatorRef.current.getTelemetry());
 
-  // Focus target on map ('bus' or 'user')
   const [mapFocusTarget, setMapFocusTarget] = useState<'bus' | 'user'>('bus');
 
-  // Google Auth User State & Mode
   const [currentUser, setCurrentUser] = useState<FirebaseUser | null>(null);
   const [isAuthModalOpen, setIsAuthModalOpen] = useState<boolean>(false);
   const [authModalMode, setAuthModalMode] = useState<'default' | 'register'>('default');
 
-  // Continuous Bus GPS progression along Route 42
   useEffect(() => {
     const interval = setInterval(() => {
       const next = busSimulatorRef.current.step();
@@ -160,9 +152,7 @@ export default function App() {
     return () => clearInterval(interval);
   }, []);
 
-  // Listen to Firebase Auth state + localStorage restoration
   useEffect(() => {
-    // 1. Instant session restore from localStorage
     try {
       const savedUserStr = localStorage.getItem('busvision_user');
       if (savedUserStr) {
@@ -175,7 +165,7 @@ export default function App() {
       console.warn('Failed restoring user from localStorage:', e);
     }
 
-    // 2. Firebase live auth state listener
+
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
         setCurrentUser(user);
@@ -192,13 +182,12 @@ export default function App() {
     return () => unsubscribe();
   }, []);
 
-  // Dynamic calculations based on real GPS coordinates
   const nearestInfo = getNearestBusStop(location.lat, location.lng, AKTAU_ROUTE_42_STOPS);
   const currentWaitingStop = manualStopId 
     ? (AKTAU_ROUTE_42_STOPS.find(s => s.id === manualStopId) || nearestInfo.stop) 
     : nearestInfo.stop;
 
-  // Track vote state per stop in sessionStorage
+
   useEffect(() => {
     try {
       const voted = sessionStorage.getItem(`voted_${currentWaitingStop.id}`) === 'true';
@@ -208,9 +197,9 @@ export default function App() {
     }
   }, [currentWaitingStop.id]);
 
-  // Firebase Realtime Database Listeners
+  
   useEffect(() => {
-    // 1. Listen to 'bus/42/occupancy'
+
     const occupancyRef = ref(db, 'bus/42/occupancy');
     const unsubOccupancy = onValue(occupancyRef, (snapshot) => {
       const val = snapshot.val();
@@ -224,7 +213,7 @@ export default function App() {
       console.warn('Firebase RTDB occupancy error:', err);
     });
 
-    // 2. Listen to 'bus/42/location'
+ 
     const locationRef = ref(db, 'bus/42/location');
     const unsubLocation = onValue(locationRef, (snapshot) => {
       const val = snapshot.val();
@@ -247,7 +236,6 @@ export default function App() {
     };
   }, []);
 
-  // 3. Listen to dynamic stop waiting count: 'stops/${currentWaitingStop.id}/waitingCount'
   useEffect(() => {
     const waitingPath = `stops/${currentWaitingStop.id}/waitingCount`;
     const waitingRef = ref(db, waitingPath);
@@ -260,7 +248,6 @@ export default function App() {
       }
       setWaitingCount(count);
 
-      // Когда автобус забирает людей и счетчик обнуляется (0), разблокируем кнопку для пассажиров
       if (count === 0) {
         setHasVotedWaiting(false);
         setIsSubmitting(false);
@@ -279,7 +266,6 @@ export default function App() {
     };
   }, [currentWaitingStop.id]);
 
-  // Crowdsourcing action handler for the current stop
   const handleWaitingClick = async () => {
     if (hasVotedWaiting || isSubmitting) return;
     setIsSubmitting(true);
@@ -318,7 +304,6 @@ export default function App() {
     }
   };
 
-  // Soft, pastel aesthetics matching exact prompt constraints
   const getStatusStyles = (count: number) => {
     if (count < 15) {
       return {
