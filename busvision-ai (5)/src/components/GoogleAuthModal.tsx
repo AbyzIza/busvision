@@ -53,18 +53,14 @@ export const GoogleAuthModal: React.FC<GoogleAuthModalProps> = ({
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  // New account registration fields
   const [regFullName, setRegFullName] = useState('');
   const [regEmail, setRegEmail] = useState('');
 
-  // Edit current user name
   const [isEditingName, setIsEditingName] = useState(false);
   const [editedName, setEditedName] = useState('');
 
-  // Stored accounts on this device
   const [savedAccounts, setSavedAccounts] = useState<SavedAccount[]>([]);
 
-  // Load saved accounts list from localStorage
   useEffect(() => {
     if (isOpen) {
       loadSavedAccounts();
@@ -81,7 +77,6 @@ export const GoogleAuthModal: React.FC<GoogleAuthModalProps> = ({
         const list: SavedAccount[] = JSON.parse(raw);
         setSavedAccounts(Array.isArray(list) ? list : []);
       } else {
-        // Pre-populate with default demo account if none exists
         const defaultAccounts: SavedAccount[] = [
           {
             uid: 'google-domatt09_gmail_com',
@@ -101,7 +96,6 @@ export const GoogleAuthModal: React.FC<GoogleAuthModalProps> = ({
 
   if (!isOpen) return null;
 
-  // Helper to persist user and save to accounts list
   const completeAuth = (authenticatedUser: FirebaseUser) => {
     const userToSave = {
       uid: authenticatedUser.uid,
@@ -111,10 +105,9 @@ export const GoogleAuthModal: React.FC<GoogleAuthModalProps> = ({
     };
 
     try {
-      // 1. Save current active user
+
       localStorage.setItem('busvision_user', JSON.stringify(userToSave));
 
-      // 2. Add or update in saved accounts list
       const raw = localStorage.getItem('busvision_accounts');
       let list: SavedAccount[] = raw ? JSON.parse(raw) : [];
       if (!Array.isArray(list)) list = [];
@@ -144,7 +137,6 @@ export const GoogleAuthModal: React.FC<GoogleAuthModalProps> = ({
     onClose();
   };
 
-  // Switch to an existing saved account
   const handleSelectSavedAccount = (acc: SavedAccount) => {
     const userObj = {
       uid: acc.uid,
@@ -167,7 +159,6 @@ export const GoogleAuthModal: React.FC<GoogleAuthModalProps> = ({
     completeAuth(userObj);
   };
 
-  // Remove a saved account from the list
   const handleDeleteSavedAccount = (emailToDelete: string, e: React.MouseEvent) => {
     e.stopPropagation();
     try {
@@ -175,7 +166,6 @@ export const GoogleAuthModal: React.FC<GoogleAuthModalProps> = ({
       localStorage.setItem('busvision_accounts', JSON.stringify(updated));
       setSavedAccounts(updated);
 
-      // If deleted account is currently active user, sign out
       if (user?.email?.toLowerCase() === emailToDelete.toLowerCase()) {
         handleSignOut();
       }
@@ -184,7 +174,6 @@ export const GoogleAuthModal: React.FC<GoogleAuthModalProps> = ({
     }
   };
 
-  // Save edited real name for current user
   const handleSaveEditedName = () => {
     if (!editedName.trim()) {
       setError('Имя не может быть пустым');
@@ -208,7 +197,6 @@ export const GoogleAuthModal: React.FC<GoogleAuthModalProps> = ({
         photoURL: updatedUser.photoURL,
       }));
 
-      // Update in saved accounts list
       const raw = localStorage.getItem('busvision_accounts');
       if (raw) {
         const list: SavedAccount[] = JSON.parse(raw);
@@ -228,8 +216,6 @@ export const GoogleAuthModal: React.FC<GoogleAuthModalProps> = ({
     setIsEditingName(false);
     setError(null);
   };
-
-  // Register a new custom account with user's REAL NAME and email
   const handleRegisterNewAccount = (e: React.FormEvent) => {
     e.preventDefault();
     setError(null);
@@ -279,13 +265,11 @@ export const GoogleAuthModal: React.FC<GoogleAuthModalProps> = ({
     }
   };
 
-  // Standard 1-click Google Sign-In
   const handlePrimaryGoogleSignIn = async () => {
     setLoading(true);
     setError(null);
 
     try {
-      // 1. Try real popup
       const result = await signInWithPopup(auth, googleProvider);
       if (result.user) {
         completeAuth(result.user);
@@ -295,7 +279,6 @@ export const GoogleAuthModal: React.FC<GoogleAuthModalProps> = ({
       console.info('Native popup restricted in preview, proceeding with functional session:', popupErr);
     }
 
-    // 2. Functional session
     const defaultUser = {
       uid: 'google-domatt09_gmail_com',
       displayName: 'Дамир М.',
