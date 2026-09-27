@@ -70,10 +70,8 @@ export function useUserGeolocation() {
       return;
     }
 
-    // Initial position fetch
     refreshLocation();
 
-    // Live continuous watch
     const watchId = navigator.geolocation.watchPosition(
       updatePosition,
       handleError,
